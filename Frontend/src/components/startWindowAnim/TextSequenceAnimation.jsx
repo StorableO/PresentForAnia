@@ -9,7 +9,7 @@ const TextSequenceAnimation = () => {
   const [isTextComplete, setIsTextComplete] = useState(false);
   const [isFinish, setIsFinish] = useState(false);
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const text = textData;
 
