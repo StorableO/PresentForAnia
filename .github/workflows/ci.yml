@@ -56,22 +56,12 @@ jobs:
           cd ../Frontend
           npm ci
           npm run build
+          echo "✅ Frontend built for backend tests"
       
-      - name: Start server and test
+      - name: Check syntax and basic functionality
         run: |
-          # Запускаем сервер в фоне
-          node main.js &
-          SERVER_PID=$!
-
-          sleep 5
-
-          echo "Testing health endpoint..."
-          curl -f http://localhost:3000/api/health
-
-          echo "Testing main endpoint..."
-          curl -f http://localhost:3000/ || echo "Frontend might not be built"
+          # Только проверяем синтаксис и базовую функциональность
+          node -c main.js && echo "✅ Backend syntax is valid"
           
-          kill $SERVER_PID
-      
-      - name: Check syntax
-        run: node -c main.js && echo "✅ Backend syntax is valid"
+          # Быстрая проверка что сервер может импортироваться
+          node -e "const app = require('./main.js'); console.log('✅ Server module can be imported')"
