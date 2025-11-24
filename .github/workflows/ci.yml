@@ -32,6 +32,7 @@ jobs:
       - name: Run tests
         run: npm test
 
+  
   test-backend:  
     runs-on: ubuntu-latest
     defaults:
@@ -56,12 +57,11 @@ jobs:
           cd ../Frontend
           npm ci
           npm run build
-          echo "✅ Frontend built for backend tests"
       
       - name: Check syntax and basic functionality
         run: |
-          # Только проверяем синтаксис и базовую функциональность
+          # Только проверяем синтаксис, НЕ запускаем сервер
           node -c main.js && echo "✅ Backend syntax is valid"
           
-          # Быстрая проверка что сервер может импортироваться
-          node -e "const app = require('./main.js'); console.log('✅ Server module can be imported')"
+          # Проверяем что модуль можно импортировать
+          node -e "const app = require('./main.js'); console.log('✅ Server module can be imported'); process.exit(0)"
