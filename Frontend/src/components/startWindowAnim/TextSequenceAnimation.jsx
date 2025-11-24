@@ -3,7 +3,7 @@ import {motion, AnimatePresence} from 'framer-motion';
 import './styles.css'
 import textData from "./textForStart";
 
-const TextSequenceAnimation = () => {
+const TextSequenceAnimation = ({changeAnimationStatus}) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [bgOpacity, setBgOpacity] = useState(1);
   const [isTextComplete, setIsTextComplete] = useState(false);
@@ -42,6 +42,7 @@ const TextSequenceAnimation = () => {
         } else {
           clearInterval(bgTimer);
           setIsFinish(true);
+          changeAnimationStatus(true);
           return 0;
         }
       });
