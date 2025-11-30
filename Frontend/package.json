@@ -8,11 +8,15 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "test": "echo 'Frontend tests completed' && exit 0",
     "test:ci": "npm run build && echo 'Build successful'"
   },
+  "homepage": "https://StorableO.github.io/aniapage",
   "dependencies": {
     "bootstrap": "^5.3.8",
+    "gh-pages": "^6.3.0",
     "motion": "^12.23.24",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",

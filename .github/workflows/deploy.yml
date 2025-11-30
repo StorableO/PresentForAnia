@@ -1,0 +1,41 @@
+name: Deploy React App to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]  # Срабатывает при пуше в main ветку
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # Запускается на виртуальной машине Ubuntu
+    
+    steps:
+    # Шаг 1: Забирает код из репозитория
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    # Шаг 2: Устанавливает Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'  # Версия Node.js
+        cache: 'npm'        # Кэширует node_modules для скорости
+        cache-dependency-path: Frontend/package-lock.json
+        
+    # Шаг 3: Устанавливает зависимости фронтенда
+    - name: Install frontend dependencies
+      run: |
+        cd Frontend
+        npm install
+        
+    # Шаг 4: Собирает React приложение
+    - name: Build frontend
+      run: |
+        cd Frontend
+        npm run build  # Создает папку dist/ с готовыми файлами
+        
+    # Шаг 5: Деплоит на GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}  # Автоматический токен
+        publish_dir: ./Frontend/dist  # Откуда брать файлы для деплоя
