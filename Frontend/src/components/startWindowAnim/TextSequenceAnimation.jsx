@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {motion, AnimatePresence} from 'framer-motion';
-import './styles.css'
+import { motion, AnimatePresence } from 'framer-motion';
+import './styles.css';
 import textData from "./textForStart";
 
-const TextSequenceAnimation = ({changeAnimationStatus}) => {
+const TextSequenceAnimation = ({ changeAnimationStatus }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [bgOpacity, setBgOpacity] = useState(1);
   const [isTextComplete, setIsTextComplete] = useState(false);
-  const [isFinish, setIsFinish] = useState(false);
-
-  // const navigate = useNavigate()
+  const [isQuestionComplete, setIsQuestionComplete] = useState(false);
+  const [userAnswer, setUserAnswer] = useState(null);
 
   const text = textData;
 
+  // Анимация текста
   useEffect(() => {
     const textTimer = setInterval(() => {
       setCurrentTextIndex((prev) => {
@@ -25,84 +25,98 @@ const TextSequenceAnimation = ({changeAnimationStatus}) => {
         }
       });
     }, 3000);
+    
     return () => {
       clearInterval(textTimer);
-      
     };
-  }, []);
+  }, [text.length]);
 
-  useEffect( () =>{
-    if(!isTextComplete) return;
+  useEffect(() => {
+    if (!userAnswer) return;
 
-    if(isTextComplete){
-        const bgTimer = setInterval(() => {
+    const timer = setTimeout(() => {
+      setIsQuestionComplete(true);
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, [userAnswer]);
+
+  // Анимация фона после ответа
+  useEffect(() => {
+    if (!isQuestionComplete) return;
+
+    const bgTimer = setInterval(() => {
       setBgOpacity((prev) => {
-        if (prev > 0.1) {
+        if (prev > 0.05) {
           return prev - 0.005;
         } else {
           clearInterval(bgTimer);
-          setIsFinish(true);
           changeAnimationStatus(true);
           return 0;
         }
       });
     }, 10);
 
-    return () =>{
-        clearInterval(bgTimer);
-    }
-    }
-  }, [isTextComplete])
+    return () => {
+      clearInterval(bgTimer);
+    };
+  }, [isQuestionComplete, changeAnimationStatus]);
 
-  useEffect(()=>{
-    if(!isFinish) return;
-
-
-  }, [isFinish])
-//   const containerVariants = {
-//     hidden: { opacity: 0 },
-//     visible: {
-//       opacity: 1,
-//       transition: {
-//         when: "beforeChildren",
-//         staggerChildren: 0.3
-//       }
-//     }
-//   };
-
-//   const itemVariants = {
-//     hidden: { y: 20, opacity: 0 },
-//     visible: {
-//       y: 0,
-//       opacity: 1,
-//       transition: {
-//         duration: 0.8,
-//         ease: "easeOut"
-//       }
-//     }
-//   };
-
+  const handleAnswer = (answerType) => {
+    setUserAnswer(answerType);
+  };
 
   return (
     <motion.div 
       className="motionContainer"
-      style={{background: `rgba(0,0,0, ${bgOpacity})`}}
+      style={{ backgroundColor: `rgba(0, 0, 0, ${bgOpacity})` }}
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 1 }}
     >
       <AnimatePresence mode="wait">
-        <motion.div
-          key={currentTextIndex}
-          className="motionDivText"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-        >
-          {text[currentTextIndex].text}
-        </motion.div>
+        {!userAnswer ? (
+          <motion.div
+            key={currentTextIndex}
+            className="motionDivText"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5 }}
+          >
+            {!isTextComplete ? text[currentTextIndex]?.text : <></> || ""}
+          </motion.div>
+        ) : (
+          <motion.div
+            key="final-text"
+            className="motionDivText final-text"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+            transition={{ 
+              duration: 0.5,
+              type: "spring",
+              stiffness: 200
+            }}
+          >
+            {userAnswer}
+          </motion.div>
+        )}
       </AnimatePresence>
+
+      {isTextComplete && !userAnswer && (
+        <motion.div
+          className="ask-container"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <button className="btn-answer-anim" onClick={() => handleAnswer("Я так и знал!")}>Конечно!</button>
+          <button className="btn-answer-anim" onClick={() => handleAnswer("Я так и знал!")}>Еще бы!</button>
+        </motion.div>
+      )}
     </motion.div>
   );
 };
+
 export default TextSequenceAnimation;

@@ -8,6 +8,9 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .motionDivText{
     color: aliceblue;
@@ -15,5 +18,16 @@
     font-weight: bold;
     text-align: center;
     padding: 2rem;
-    transition: 1, ease;
+    transition: 2, ease;
+}
+.btn-answer-anim{
+    width: 150px;
+    height: 60px;
+    font-size: 1.5rem;
+    background-color: #8a2be2;
+    color: aliceblue;
+    border-radius: 8px;
+    border: 2px solid #b06eee ;
+    box-shadow: 5px 5px 10px #323232;
+    margin: 10px;
 }
