@@ -1,14 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import TextSequenceAnimation from './components/startWindowAnim/TextSequenceAnimation';
-import PageContent from './components/mainWindow/pageContent';
 
-const App = () => {
+import PageContent from './components/mainPage/pageContent';
+import Header from './components/Header/Header';
+import HeroSection from './components/HeroSection/HeroSection';
+import QuotesSection from './components/QuotesSection/QuoteSection';
+import VideoStory from './components/VideoStory/VideoStory';
+import Gallery from './components/Gallery/Gallery';
+
+function App() {
+  const [isAnimationDone, setIsAnimationDone] = useState(true);
+  const [activePage, setActivePage] = useState('home');
+  
+  if (!isAnimationDone) {
+    return <PageContent changeAnimationStatus={setIsAnimationDone} />;
+  }
+  
   return (
-    <div className="App">
-      <PageContent></PageContent>
-    </div>
+    <motion.div className="App">
+      <Header activePage={activePage} setActivePage={setActivePage} />
+      
+      <main>
+        {activePage === 'home' ? (
+          <>
+            <HeroSection />
+            <QuotesSection />
+            <VideoStory />
+          </>
+        ) : (
+          <Gallery />
+        )}
+      </main>
+      
+      <footer className="footer text-center py-4">
+        <p>С любовью для самой прекрасной девушки ❤️</p>
+      </footer>
+    </motion.div>
   );
-};
+}
 
 export default App;

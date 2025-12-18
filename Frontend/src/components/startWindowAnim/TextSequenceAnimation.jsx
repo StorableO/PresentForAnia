@@ -50,9 +50,11 @@ const TextSequenceAnimation = ({ changeAnimationStatus }) => {
         if (prev > 0.05) {
           return prev - 0.005;
         } else {
-          clearInterval(bgTimer);
-          changeAnimationStatus(true);
-          return 0;
+          const timerQ = setTimeout(() => {
+              changeAnimationStatus(true);
+          }, 2000);
+              clearInterval(bgTimer);
+          return () => clearTimeout(timerQ);
         }
       });
     }, 10);
