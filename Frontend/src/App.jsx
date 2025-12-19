@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import PageContent from './components/MainPage/pageContent';
+import PageContent from './components/MainPage/PageContent';
 import Header from './components/Header/Header';
 import HeroSection from './components/HeroSection/HeroSection';
 import QuotesSection from './components/QuotesSection/QuoteSection';
