@@ -1,0 +1,78 @@
+.quotes-manager {
+  padding: 20px;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.manager-container {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.add-form {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.quotes-grid {
+  display: grid;
+  gap: 15px;
+}
+
+.quote-card {
+  border-left: 4px solid #d63384;
+  transition: transform 0.2s;
+}
+
+.quote-card:hover {
+  transform: translateY(-2px);
+}
+
+.quote-text {
+  font-style: italic;
+  margin-bottom: 15px;
+  min-height: 60px;
+}
+
+.quote-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quote-author {
+  color: #666;
+  font-weight: 500;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .manager-container {
+    padding: 15px;
+  }
+  
+  .manager-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  
+  .quote-footer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}

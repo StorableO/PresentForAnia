@@ -1,0 +1,126 @@
+.video-story {
+  padding: 5rem 0;
+  background-color: #f0f8ff;
+}
+
+.video-story-title {
+  color: #d63384;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.video-story-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #d63384;
+}
+
+.video-story-subtitle {
+  text-align: center;
+  margin-bottom: 4rem;
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.timeline-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.timeline {
+  position: relative;
+}
+.video-moment {
+  position: relative;
+  width: calc(50% - 60px);
+  margin-bottom: 4rem;
+  z-index: 2;
+}
+
+.moment-left {
+  left: 0;
+}
+
+.moment-right {
+  left: calc(50% + 60px);
+}
+
+.moment-card {
+  transition: transform 0.3s;
+  border-radius: 15px !important;
+  border: none !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.moment-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.moment-number {
+  position: absolute;
+  top: -20px;
+  right: 0px;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0,0,0, 0.1);
+  color: rgb(0, 0, 0);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  z-index: 3;
+}
+
+.moment-right .moment-number {
+  right: auto;
+  left: -15px;
+}
+
+.final-message-container {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.final-message {
+  border: 2px dashed #d63384;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 992px) {
+  .timeline::before {
+    left: 30px;
+  }
+  
+  .video-moment {
+    width: calc(100% - 60px);
+    left: 30px !important;
+  }
+  
+  .moment-left, .moment-right {
+    left: 30px !important;
+  }
+  
+  .moment-number {
+    left: -15px !important;
+    right: auto !important;
+  }
+}
