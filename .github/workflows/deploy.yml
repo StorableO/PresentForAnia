@@ -2,11 +2,11 @@ name: Deploy React App to GitHub Pages
 
 on:
   push:
-    branches: [ main ]  # Срабатывает при пуше в main ветку
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest  # Запускается на виртуальной машине Ubuntu
+    runs-on: ubuntu-latest
     
     steps:
     # Шаг 1: Забирает код из репозитория
@@ -17,8 +17,8 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'  # Версия Node.js
-        cache: 'npm'        # Кэширует node_modules для скорости
+        node-version: '18'
+        cache: 'npm'
         cache-dependency-path: Frontend/package-lock.json
         
     # Шаг 3: Устанавливает зависимости фронтенда
@@ -27,21 +27,26 @@ jobs:
         cd Frontend
         npm install
         
+    # Шаг 3.5: Создаем .nojekyll файл (ВАЖНО!)
+    - name: Create .nojekyll file
+      run: |
+        touch Frontend/dist/.nojekyll 2>/dev/null || (mkdir -p Frontend/dist && touch Frontend/dist/.nojekyll)
+        
     # Шаг 4: Собирает React приложение
     - name: Build frontend
       run: |
         cd Frontend
-        npm run build  # Создает папку dist/ с готовыми файлами
-
-    - name: Add .nojekyll file
-      run: |
-        cd Frontend/dist
-        touch .nojekyll
+        npm run build
         
     # Шаг 5: Деплоит на GitHub Pages
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}  # Автоматический токен
-        publish_dir: ./Frontend/dist  # Откуда брать файлы для деплоя
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./Frontend/dist
+        # ДОБАВЬТЕ ЭТИ 2 СТРОКИ:
         publish_branch: gh-pages
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        # Опционально: очистить старые файлы
+        force_orphan: true
