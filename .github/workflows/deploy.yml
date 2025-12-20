@@ -32,6 +32,11 @@ jobs:
       run: |
         cd Frontend
         npm run build  # Создает папку dist/ с готовыми файлами
+
+    - name: Add .nojekyll file
+      run: |
+        cd Frontend/dist
+        touch .nojekyll
         
     # Шаг 5: Деплоит на GitHub Pages
     - name: Deploy to GitHub Pages
