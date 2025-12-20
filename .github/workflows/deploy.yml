@@ -1,8 +1,9 @@
-name: Deploy to GitHub Pages
+name: Deploy React App to GitHub Pages
 
 on:
   push:
     branches: [ main ]
+  workflow_dispatch: # Добавляет кнопку для ручного запуска в Actions
 
 permissions:
   contents: write
@@ -11,7 +12,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -19,18 +20,21 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: 'Frontend/package-lock.json' # Кэшируем зависимости фронтенда
 
-      - name: Install dependencies
+      - name: Install Dependencies
+        working-directory: ./Frontend # ВСЕ следующие шаги выполняются в папке Frontend
         run: npm ci
 
-      - name: Build
+      - name: Build Project
+        working-directory: ./Frontend
         run: npm run build
 
-      - name: List dist contents (debug)
-        run: ls -la dist/
+      - name: Verify Build Output (Debug)
+        run: ls -la Frontend/dist/ # Проверяем, создалась ли папка с файлами
 
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: dist  # <-- КОРРЕКТНЫЙ ПУТЬ: dist в корне
+          folder: Frontend/dist # КРИТИЧЕСКИ ВАЖНО: указываем ПРАВИЛЬНЫЙ путь к сборке
