@@ -16,7 +16,7 @@ import { quotesData } from  './components/ResourcesInfo/quotes';
 import { videoMoments } from './components/ResourcesInfo/videoText';
 
 function App() {
-  const [isAnimationDone, setIsAnimationDone] = useState(true);
+  const [isAnimationDone, setIsAnimationDone] = useState(false);
   const [activePage, setActivePage] = useState('home');
 
   const [quotes, setQuotes] = useState(quotesData);
