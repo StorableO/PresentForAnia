@@ -1,5 +1,3 @@
-import { text } from "motion/react-client";
-
 const textData = [
     { 
         text:"Привет, Aнют😊",
